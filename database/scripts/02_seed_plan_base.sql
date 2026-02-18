@@ -1,0 +1,43 @@
+-- 02_seed_plan_base.sql
+-- ============================================================
+
+INSERT INTO plan_cuentas_base
+(codigo, nombre, tipo, nivel, codigo_padre, es_detalle, permite_mov, activo, created_at)
+VALUES
+('1010101','Caja','ACTIVO',1,NULL,1,1,1,NOW()),
+('4010110','Ventas','RESULTADO',1,NULL,1,1,1,NOW()),
+('4010120','Ventas Exentas','RESULTADO',1,NULL,1,1,1,NOW()),
+('2010925','IVA Débito Fiscal','PASIVO',1,NULL,1,1,1,NOW()),
+('1010802','IVA Crédito Fiscal','ACTIVO',1,NULL,1,1,1,NOW()),
+('1010630','Mercadería','ACTIVO',1,NULL,1,1,1,NOW()),
+('1010801','PPM','ACTIVO',1,NULL,1,1,1,NOW()),
+('30102','Capital Preferente','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('30101','Capital Social','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('2010210','Cuentas por Pagar','PASIVO',1,NULL,1,1,1,NOW()),
+('2010120','Varios Acreedores','PASIVO',1,NULL,1,1,1,NOW()),
+('4010601','Otros Ingresos','RESULTADO',1,NULL,1,1,1,NOW()),
+('4010890','Gastos Generales','RESULTADO',1,NULL,1,1,1,NOW()),
+('4012210','C. Monetaria','RESULTADO',1,NULL,1,1,1,NOW()),
+('30203','Pérdida y Ganancia','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('4010701','Pérdida Tributaria','RESULTADO',1,NULL,1,1,1,NOW()),
+('1010220','Retiros','ACTIVO',1,NULL,1,1,1,NOW()),
+('4010220','Costo de Venta','RESULTADO',1,NULL,1,1,1,NOW()),
+('4010815','Arriendos','RESULTADO',1,NULL,1,1,1,NOW()),
+('4010810','Sueldos','RESULTADO',1,NULL,1,1,1,NOW()),
+('4010822','Honorarios','RESULTADO',1,NULL,1,1,1,NOW()),
+('2010930','Renta 2da Categoría','PASIVO',1,NULL,1,1,1,NOW()),
+('2010910','Impuesto Único','PASIVO',1,NULL,1,1,1,NOW()),
+('30202','Utilidades por Capitalizar','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('1020820','Muebles y Útiles','ACTIVO',1,NULL,1,1,1,NOW()),
+('30601','Fdo. Rev. Cap. Propio','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('2020101','Depre. Acumulada','PASIVO',1,NULL,1,1,1,NOW()),
+('1010353','Vehículo','ACTIVO',1,NULL,1,1,1,NOW()),
+('2020601','Fdo. Utilid. Acumuladas','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('1010310','Herramientas','ACTIVO',1,NULL,1,1,1,NOW()),
+('1020810','Maquinarias','ACTIVO',1,NULL,1,1,1,NOW()),
+('1010370','Préstamo Solidario','PASIVO',1,NULL,1,1,1,NOW()),
+('4012570','Impto. Rta. Primera Catg.','RESULTADO',1,NULL,1,1,1,NOW()),
+('30103','Cta. Cap. Socio 1','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('30104','Cta. Cap. Socio 2','PATRIMONIO',1,NULL,1,1,1,NOW()),
+('1020201','Garantía Arriendo','ACTIVO',1,NULL,1,1,1,NOW()),
+('4010916','Compras Exentas','RESULTADO',1,NULL,1,1,1,NOW());
