@@ -1,8 +1,29 @@
 -- 01_tables.sql
 -- ============================================================
+-- Esquema base con soporte MULTI-OFICINA:
+-- MASTER_ADMIN (global) -> oficina_contable -> empresas -> (plan_cuentas, asientos, etc.)
+-- ============================================================
 
+-- ========================
+-- OFICINAS CONTABLES
+-- ========================
+CREATE TABLE oficina_contable (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  codigo VARCHAR(50) NOT NULL,
+  nombre VARCHAR(200) NOT NULL,
+  estado VARCHAR(20) NOT NULL DEFAULT 'ACTIVA', -- ACTIVA | SUSPENDIDA
+  created_at DATETIME NULL,
+  updated_at DATETIME NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_oficina_codigo (codigo)
+);
+
+-- ========================
+-- EMPRESAS (pertenecen a una oficina)
+-- ========================
 CREATE TABLE empresas (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  oficina_id BIGINT UNSIGNED NOT NULL,
   rut VARCHAR(20) NULL,
   razon_social VARCHAR(200) NULL,
   nombre_fantasia VARCHAR(200) NULL,
@@ -18,9 +39,15 @@ CREATE TABLE empresas (
   created_at DATETIME NULL,
   updated_at DATETIME NULL,
   PRIMARY KEY (id),
-  UNIQUE KEY uq_empresas_rut (rut)
+  UNIQUE KEY uq_empresas_rut (rut),
+  KEY idx_empresas_oficina (oficina_id),
+  CONSTRAINT fk_empresas_oficina
+    FOREIGN KEY (oficina_id) REFERENCES oficina_contable(id)
 );
 
+-- ========================
+-- PLAN DE CUENTAS (por empresa)
+-- ========================
 CREATE TABLE plan_cuentas (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   empresa_id BIGINT UNSIGNED NOT NULL,
@@ -41,6 +68,9 @@ CREATE TABLE plan_cuentas (
     FOREIGN KEY (empresa_id) REFERENCES empresas(id)
 );
 
+-- ========================
+-- PLAN DE CUENTAS BASE (plantilla)
+-- ========================
 CREATE TABLE plan_cuentas_base (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   codigo VARCHAR(50) NOT NULL,
@@ -57,20 +87,31 @@ CREATE TABLE plan_cuentas_base (
   UNIQUE KEY uq_plan_base_codigo (codigo)
 );
 
+-- ========================
+-- USUARIOS (MASTER_ADMIN global o usuarios por oficina)
+-- ========================
 CREATE TABLE usuarios (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  username VARCHAR(100) NOT NULL,
+  oficina_id BIGINT UNSIGNED NULL, -- NULL solo para MASTER_ADMIN
+  username VARCHAR(100) NOT NULL,   -- ejemplo: master | admin@ofi001 | usuario@ofi001
   email VARCHAR(150) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  rol VARCHAR(50) NOT NULL DEFAULT 'ADMIN',
+  rol VARCHAR(50) NOT NULL DEFAULT 'ADMIN', -- MASTER_ADMIN | ADMIN_OFICINA | (otros futuros)
   activo TINYINT(1) NOT NULL DEFAULT 1,
   created_at DATETIME NULL,
   updated_at DATETIME NULL,
   PRIMARY KEY (id),
   UNIQUE KEY uq_usuarios_email (email),
-  UNIQUE KEY uq_usuarios_username (username)
+  UNIQUE KEY uq_usuarios_username (username),
+  KEY idx_usuarios_oficina (oficina_id),
+  CONSTRAINT fk_usuarios_oficina
+    FOREIGN KEY (oficina_id) REFERENCES oficina_contable(id)
 );
 
+-- ========================
+-- VINCULO EMPRESA <-> USUARIO
+-- (Permite que un usuario esté asociado a una o varias empresas)
+-- ========================
 CREATE TABLE empresa_usuarios (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   empresa_id BIGINT UNSIGNED NOT NULL,
